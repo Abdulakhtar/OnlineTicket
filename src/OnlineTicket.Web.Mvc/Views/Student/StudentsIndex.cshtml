@@ -1,0 +1,210 @@
+﻿@using OnlineTicket.Web.Startup
+@*@using OnlineTicket.Web.UIHelper*@
+@model OnlineTicket.Web.Models.Students.StudentViewModel
+
+@{
+    ViewData["Title"] = PageNames.Students;
+    ViewBag.CurrentPageName = PageNames.Students;
+}
+@section styles{
+    <link href="~/lib/multi-column-jquery/jquery-ui.css" rel="stylesheet" />
+}
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/view-resources/Views/Students/Index.js" asp-append-version="true"></script>
+    </environment>
+
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 class="header-title pull-right">
+                    <span style="align-content:center">Student Record</span>
+                </h2>
+            </div>
+            <div class="col-sm-6">
+                <a href="javascript:;" data-toggle="modal" data-target="#StudentCreateModal" class="btn bg-blue float-sm-right">
+                    <i class="fa fa-plus-square"> Create</i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @*@using (Html.BeginForm("", "", FormMethod.Post, new { id = "StudentForm", role = "form" }))
+        {
+            <div class="row">
+                @Html.HiddenFor(model => model.Id, new { @id = "Id" })
+                <div class="form-horizontal">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="control-label" for="FullName">Full Name</label>
+                            <div class="col">
+                                <div class="form-group form-float">
+                                    @Html.TextBoxFor(model => model.FullName, Model.FullName, new { @class = "form-control form-line validation-check" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Registration Number</label>
+                            <div class="col">
+                                <div class="form-group form-float">
+                                    @Html.TextBoxFor(model => model.RegistrationNumber, Model.RegistrationNumber, new { @class = "form-control form-line validation-check" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Email Id</label>
+                            <div class="col">
+                                <div class="form-group form-float">
+                                    @Html.TextBoxFor(model => model.EmailId, Model.EmailId, new { @class = "form-control form-line validation-check" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+        <br />
+        <div class="form-group" style="margin-bottom: 0px;">
+            <input type="button" id="CancelBtnStudent" class="btn btn-default waves-effect" value="Cancel ">
+            <input type="button" id="SubmitBtnStudent" class="btn btn-primary waves-effect" value="Save Settings">
+        </div>
+        <br />*@
+
+                        <div class="table-responsive">
+                            <table id="StudentsTable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Full Name</th>
+                                        <th>Registration Number</th>
+                                        <th>Email Id</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @*<tr>
+
+                        <td>
+                            @foreach (var item in Model.FullName)
+                            {@item}
+                        </td>
+
+                        <td>
+                            @foreach (var item in Model.RegistrationNumber)
+                            {@item}
+                        </td>
+
+                        <td>
+                            @foreach (var item in Model.EmailId)
+                            {@item}
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-sm bg-secondary  edit-role" data-role-id="1" data-toggle="modal" data-target="#StudentEditModal">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm bg-danger  delete-role" data-role-id="1" data-toggle="modal">
+                                <i class="fas fa-trash-alt"></i> Del
+                            </button>
+                        </td>
+
+                    </tr>*@
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    @*Footer goes here*@
+                    <div class="modal-footer m-t-10" style="margin-bottom: 0px;">
+
+                    </div>
+                </div>
+            </div>
+            @await Html.PartialAsync("~/Views/Student/_createModal.cshtml", Model)
+
+            <div class="modal fade" id="StudentEditModal" tabindex="-1" role="dialog" aria-labelledby="StudentEditModalLabel" data-backdrop="static">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/lib/multi-column-jquery/jquery-ui.min.js" asp-append-version="true"></script>
+<script src="~/libs/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js" asp-append-version="true"></script>
+<script src="~/libs/jquery/jquery.js" asp-append-version="true"></script>
+<script>
+    $("#SubmitBtnStudent").click(function () {
+        var emailReg = /^([a-zA-Z0-9_.+-])+\@@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if ($('#FullName').val() === "") {
+            $('#FullName').css("border-bottom", "1px solid #f00");
+            return;
+        }
+
+        if ($('#EmailId').val() != "") {
+            if (!emailReg.test($('#EmailId').val())) {
+                $("#EmailId").css("border-bottom", "1px solid #f00");
+                return;
+            }
+        }
+
+        if ($('#StudentForm').valid()) {
+
+            var data = $('#StudentForm').serialize()
+            abp.ui.setBusy($('.body'),
+                $.ajax({
+                    url: abp.appPath + 'Student/SaveStudentForm',
+                    type: 'POST',
+                    data: data,
+                    success: function (content) {
+                        $('#Id').val(content.result);
+                        toastr.success('Data saved successfully');
+                    },
+                    error: function (e) {
+                        toastr.error('An error occured while saving data');
+                    }
+                })
+            );
+        } else {
+            toastr.error('An error occured while saving data');
+        }
+
+    });
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            $("input").attr("autocomplete", "off");
+        }, 500);
+
+        $("#CancelBtnStudent").click(function () {
+            abp.ui.setBusy($('.body'),
+                $.ajax({
+                    url: abp.appPath + 'Student/ResetStudentForm',
+                    type: 'POST',
+                    success: function (content) {
+                        $('#Id').val(content.result.id);
+                        $('#FullName').val(content.result.FullName);
+                        $('#RegistrationNumber').val(content.result.RegistrationNumber);
+                        $('#EmailId').val(content.result.suggestionEmail3);
+                    },
+                    error: function (e) {
+                        toastr.error('An error occured');
+                    }
+                })
+            );
+            $("#FullName").css("border-bottom", "1px solid #ddd");
+            $("#RegistrationNumber").css("border-bottom", "1px solid #ddd");
+            $("#EmailId").css("border-bottom", "1px solid #ddd");
+        });
+    });
+</script>
