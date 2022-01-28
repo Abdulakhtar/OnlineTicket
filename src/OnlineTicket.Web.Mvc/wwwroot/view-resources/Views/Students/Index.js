@@ -1,15 +1,17 @@
-﻿
-(function ($) {
-    debugger
+﻿(function ($) {
     var _studentService = abp.services.app.student,
         l = abp.localization.getSource('OnlineTicket'),
         _$modal = $('#StudentCreateModal'),
         _$form = _$modal.find('form'),
         _$table = $('#StudentsTable');
+    _$result = $('#StudentsResult');
+
+    var _$studentsresult = _$result.DataTable({
+
+    });
 
     var _$studentsTable = _$table.DataTable({
         paging: true,
-        processing: true,
         serverSide: true,
         ajax: function (data, callback, settings) {
             var filter = $('#StudentsSearchForm').serializeFormToObject(true);
@@ -32,7 +34,6 @@
             { "data": "registrationNumber" },
             { "data": "emailId" },
         ],
-
         buttons: [
             {
                 name: 'refresh',
@@ -129,7 +130,6 @@
             type: 'POST',
             dataType: 'html',
             success: function (content) {
-                debugger
                 $('#StudentEditModal div.modal-content').html(content);
             },
             error: function (e) { }
@@ -175,4 +175,17 @@
             return false;
         }
     });
+
+    $(document).ready(function () {
+        $("#btnData").click(function () {
+            $("#StudentsTable").toggle(1000);
+        });
+    });
+
+    $(document).ready(function () {
+        $("#btnResult").click(function () {
+            $("#StudentsResult").toggle(1000);
+        });
+    });
+
 })(jQuery);

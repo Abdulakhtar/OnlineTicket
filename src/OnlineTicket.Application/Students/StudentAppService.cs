@@ -5,7 +5,6 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using Abp.Application.Services.Dto;
 using OnlineTicket.Students.Dto;
-using Microsoft.EntityFrameworkCore;
 
 namespace OnlineTicket.Students
 {
@@ -74,6 +73,5 @@ namespace OnlineTicket.Students
         {
             return ObjectMapper.Map<List<StudentDtoOutput>>(_repository.GetAll());
         }
-
     }
 }

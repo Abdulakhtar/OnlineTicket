@@ -8,7 +8,7 @@
         if (!_$form.valid()) {
             return;
         }
-        debugger
+        
         var student = _$form.serializeFormToObject();
      
         abp.ui.setBusy(_$form);

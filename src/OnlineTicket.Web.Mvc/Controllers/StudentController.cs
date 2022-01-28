@@ -5,20 +5,12 @@ using OnlineTicket.Web.Models.Students;
 using OnlineTicket.Students;
 using OnlineTicket.Students.Dto;
 using System.Threading.Tasks;
-using OnlineTicket.Web.Models.Common;
-using Microsoft.AspNetCore.Authorization;
-using Abp.AspNetCore.Mvc.Authorization;
-using OnlineTicket.Authorization;
-using System.Collections.Generic;
-using Abp.Domain.Repositories;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace OnlineTicket.Web.Controllers
 {
     public class StudentController : OnlineTicketControllerBase
     {
         private readonly IStudentAppService _rBAdminSettingAppService;
-
 
         public StudentController(IStudentAppService rBAdminSettingAppService)
         {
