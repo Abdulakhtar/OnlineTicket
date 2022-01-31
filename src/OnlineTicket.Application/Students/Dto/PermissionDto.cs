@@ -11,6 +11,8 @@ namespace OnlineTicket.Students.Dto
 
         public string RegistrationNumber { get; set; }
 
+        public string ObtainedMarks { get; set; }
+
         public string EmailId { get; set; }
     }
 }

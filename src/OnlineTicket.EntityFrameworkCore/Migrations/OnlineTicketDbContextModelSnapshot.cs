@@ -1615,6 +1615,9 @@ namespace OnlineTicket.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("ObtainedMarks")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RegistrationNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)")

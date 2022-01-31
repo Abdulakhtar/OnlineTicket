@@ -1,4 +1,6 @@
-﻿(function ($) {
+﻿
+
+(function ($) {
     var _studentService = abp.services.app.student,
         l = abp.localization.getSource('OnlineTicket'),
         _$modal = $('#StudentCreateModal'),
@@ -6,7 +8,66 @@
         _$table = $('#StudentsTable');
     _$result = $('#StudentsResult');
 
-    var _$studentsresult = _$result.DataTable({
+    var _$studentsesult = _$result.DataTable({
+        paging: true,
+        serverSide: true,
+        ajax: function (data, callback, settings) {
+            var filter = $('#StudentsSearchForm').serializeFormToObject(true);
+            filter.maxResultCount = data.length;
+            filter.skipCount = data.start;
+
+            abp.ui.setBusy(_$result);
+            _studentService.getAll().done(function (result) {
+                callback({
+                    //recordsTotal: result.totalCount,
+                    //recordsFiltered: result.totalCount,
+                    data: result
+                });
+            }).always(function () {
+                abp.ui.clearBusy(_$result);
+            });
+        },
+        columns: [
+            { "data": "fullName" },
+            { "data": "obtainedMarks" },
+            {
+                "data": function (obj,index) {
+                    return obj.obtainedMarks > 33 ? "Pass" : "Fail";
+                }
+            },
+        ],
+        buttons: [
+            {
+                name: 'refresh',
+                text: '<i class="fas fa-redo-alt"></i>',
+                action: () => _$studentsesult.draw(false)
+            }
+        ],
+        responsive: {
+            details: {
+                type: 'column'
+            }
+        },
+        columnDefs: [
+
+            {
+                targets: 0,
+                data: 'fullName',
+                sortable: false
+            },
+            {
+                targets: 1,
+                data: 'obtainedMarks',
+                sortable: false
+            },
+            {
+                targets: 2,
+                //data: null,
+                //sortable: false,
+                //autoWidth: false,
+                //defaultContent: ''
+            }
+        ],
 
     });
 
@@ -123,7 +184,7 @@
 
     $(document).on('click', '.edit-role', function (e) {
         var studentId = $(this).attr("data-role-id");
-
+        debugger;
         e.preventDefault();
         abp.ajax({
             url: abp.appPath + 'Student/EditModal?studentId=' + studentId,

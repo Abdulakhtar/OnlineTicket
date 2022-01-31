@@ -14,6 +14,8 @@ namespace OnlineTicket.Web.Models.Students
         public string FullName { get; set; }
         [MaxLength(100)]
         public string RegistrationNumber { get; set; }
+        public string ObtainedMarks { get; set; }
+        public string Status { get; set; }
         [MaxLength(100)]
         public string EmailId { get; set; }
     }

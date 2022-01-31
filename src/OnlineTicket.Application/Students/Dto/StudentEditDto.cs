@@ -10,6 +10,7 @@ namespace OnlineTicket.Students.Dto
         [Required]
         public string FullName { get; set; }
         public string RegistrationNumber { get; set; }
+        public string ObtainedMarks { get; set; }
         [Required]
         public string EmailId { get; set; }
         public bool IsStatic { get; set; }

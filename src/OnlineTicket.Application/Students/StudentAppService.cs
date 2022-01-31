@@ -37,8 +37,7 @@ namespace OnlineTicket.Students
             }
             catch (System.Exception e)
             {
-
-                throw;
+                throw e;
             }
           
         }

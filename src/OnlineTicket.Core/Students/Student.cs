@@ -14,6 +14,7 @@ namespace OnlineTicket.Students
         [Required]
         [MaxLength(20)]
         public string RegistrationNumber { get; set; }
+        public string ObtainedMarks { get; set; }
         [MaxLength(256)]
         public string EmailId { get; set; }
         public bool IsActive { get; set; }

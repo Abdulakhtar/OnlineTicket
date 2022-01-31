@@ -5,6 +5,7 @@ using OnlineTicket.Web.Models.Students;
 using OnlineTicket.Students;
 using OnlineTicket.Students.Dto;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace OnlineTicket.Web.Controllers
 {
@@ -108,6 +109,13 @@ namespace OnlineTicket.Web.Controllers
         {
             var output = _rBAdminSettingAppService.GetDetails(studentId) ?? new StudentDtoOutput();
             return PartialView("_EditModal", output);
+            //StudentViewModel model = ObjectMapper.Map<StudentViewModel>(_rBAdminSettingAppService.GetSimpleList()) ?? new StudentViewModel();
+            //foreach (var a in model)
+            //{
+            //    if (a.ObtainedMarks == 12)
+            //        a.status = "Failed";
+            //}
+
         }
     }
 
